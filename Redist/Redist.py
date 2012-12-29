@@ -531,7 +531,7 @@ class OSLinux(OS):
             return 1
         outfile = origDir+'/build.'+configuration+'.'+platform+'.txt'
         
-        compilation_cmd = "make -j" + calc_jobs_number() + " CFG=" + configuration + " PLATFORM=" + platform + " > " + outfile + " 2>&1"
+        compilation_cmd = "make -j 16 CXX=/usr/lib/distcc/g++ CC=/usr/lib/distcc/gcc CFG=" + configuration + " PLATFORM=" + platform + " > " + outfile + " 2>&1"
         if compilationMode == 'Rebuild':
             compilation_cmd = "make CFG=" + configuration + " PLATFORM=" + platform + " clean > /dev/null && " + compilation_cmd
         

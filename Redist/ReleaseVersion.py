@@ -122,7 +122,7 @@ elif platform.system() == 'Linux' or platform.system() == 'Darwin':
     config.path = '..'
     config.output_dir = origDir + '/'+ dirName
     config.compile = 'Build'
-    config.createDocs = True
+    config.createDocs = False
     config.supplyTools = False
     config.machine = platform.machine()
     Redist.Redist(config)
