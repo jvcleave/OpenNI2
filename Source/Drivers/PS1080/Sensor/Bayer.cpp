@@ -24,14 +24,11 @@
 
 // Includes
 #include "Bayer.h"
-#include <sstream>
-#include <iostream>
 
 #define AVG(a,b) (((int)(a) + (int)(b)) >> 1)
 #define AVG3(a,b,c) (((int)(a) + (int)(b) + (int)(c)) / 3)
 #define AVG4(a,b,c,d) (((int)(a) + (int)(b) + (int)(c) + (int)(d)) >> 2)
 #define WAVG4(a,b,c,d,x,y)  (unsigned char)( ( ((int)(a) + (int)(b)) * (int)(x) + ((int)(c) + (int)(d)) * (int)(y) ) / ( 2 * ((int)(x) + (int(y))) ) )
-using namespace std;
 
 typedef enum
 {

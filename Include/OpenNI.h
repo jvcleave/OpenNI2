@@ -139,6 +139,15 @@ private:
 	bool m_owner;
 };
 
+// Forward declaration of all
+class SensorInfo;
+class VideoStream;
+class VideoFrameRef;
+class Device;
+class OpenNI;
+class CameraSettings;
+class PlaybackControl;
+
 /**
 Encapsulates a group of settings for a @ref VideoStream.  Settings stored include
 frame rate, resolution, and pixel format.
@@ -574,9 +583,6 @@ private:
 	OniFrame* m_pFrame; // const!!?
 };
 
-
-class Device;
-
 /**
 The @ref VideoStream object encapsulates a single video stream from a device.  Once created, it is used to start data flow
 from the device, and to read individual frames of data.  This is the central class used to obtain data in OpenNI.  It
@@ -598,8 +604,6 @@ While some device might allow different streams
 from the same sensor to have different configurations, most devices will have a single configuration for the sensor, 
 shared by all streams.
 */
-class CameraSettings;
-
 class VideoStream
 {
 public:
@@ -617,6 +621,10 @@ public:
 		Default constructor.
 		*/
 		NewFrameListener() : m_callbackHandle(NULL)
+		{
+		}
+
+		virtual ~NewFrameListener()
 		{
 		}
 
@@ -746,8 +754,8 @@ public:
 	}
 
 	/**
-	Adds a new Listener to recieve this VideoStream onNewFrame event.  See @ref VideoStream::NewFrameListener for
-	more information on implementing an event driven frame reading architecture.
+	Adds a new Listener to receive this VideoStream onNewFrame event.  See @ref VideoStream::NewFrameListener for
+	more information on implementing an event driven frame reading architecture. An instance of a listener can be added to only one source.
 
 	@param [in] pListener Pointer to a @ref VideoStream::NewFrameListener object (or a derivative) that will respond to this event.
 	@returns Status code indicating success or failure of the operation.
@@ -755,10 +763,6 @@ public:
 	Status addNewFrameListener(NewFrameListener* pListener)
 	{
 		if (!isValid())
-		{
-			return STATUS_ERROR;
-		}
-		if (pListener->m_callbackHandle != NULL)
 		{
 			return STATUS_ERROR;
 		}
@@ -1126,8 +1130,6 @@ private:
 	CameraSettings* m_pCameraSettings;
 };
 
-class PlaybackControl;
-
 /**
 The Device object abstracts a specific device; either a single hardware device, or a file
 device holding a recording from a hardware device.  It offers the ability to connect to
@@ -1426,6 +1428,11 @@ public:
 		}
 
 		return rc;
+	}
+
+	bool getDepthColorSyncEnabled()
+	{
+		return oniDeviceGetDepthColorSyncEnabled(m_device) == TRUE;
 	}
 
 	/**
@@ -1765,6 +1772,35 @@ public:
 		return rc == STATUS_OK && enabled == TRUE;
 	}
 
+	Status setGain(int gain)
+	{
+		return setProperty(STREAM_PROPERTY_GAIN, gain);
+	}
+	Status setExposure(int exposure)
+	{
+		return setProperty(STREAM_PROPERTY_EXPOSURE, exposure);
+	}
+	int getGain()
+	{
+		int gain;
+		Status rc = getProperty(STREAM_PROPERTY_GAIN, &gain);
+		if (rc != STATUS_OK)
+		{
+			return 100;
+		}
+		return gain;
+	}
+	int getExposure()
+	{
+		int exposure;
+		Status rc = getProperty(STREAM_PROPERTY_EXPOSURE, &exposure);
+		if (rc != STATUS_OK)
+		{
+			return 0;
+		}
+		return exposure;
+	}
+
 	bool isValid() const {return m_pStream != NULL;}
 private:
 	template <class T>
@@ -1831,7 +1867,13 @@ public:
 			m_deviceConnectedCallbacks.deviceConnected = deviceConnectedCallback;
 			m_deviceConnectedCallbacks.deviceDisconnected = NULL;
 			m_deviceConnectedCallbacks.deviceStateChanged = NULL;
+			m_deviceConnectedCallbacksHandle = NULL;
 		}
+		
+		virtual ~DeviceConnectedListener()
+		{
+		}
+		
 		/**
 		* Callback function for the onDeviceConnected event.  This function will be 
 		* called whenever this event occurs.  When this happens, a pointer to the @ref DeviceInfo
@@ -1880,7 +1922,13 @@ public:
 			m_deviceDisconnectedCallbacks.deviceConnected = NULL;
 			m_deviceDisconnectedCallbacks.deviceDisconnected = deviceDisconnectedCallback;
 			m_deviceDisconnectedCallbacks.deviceStateChanged = NULL;
+			m_deviceDisconnectedCallbacksHandle = NULL;
 		}
+		
+		virtual ~DeviceDisconnectedListener()
+		{
+		}
+		
 		/**
 		 * Callback function for the onDeviceDisconnected event. This function will be
 		 * called whenever this event occurs.  When this happens, a pointer to the DeviceInfo
@@ -1922,7 +1970,13 @@ public:
 			m_deviceStateChangedCallbacks.deviceConnected = NULL;
 			m_deviceStateChangedCallbacks.deviceDisconnected = NULL;
 			m_deviceStateChangedCallbacks.deviceStateChanged = deviceStateChangedCallback;
+			m_deviceStateChangedCallbacksHandle = NULL;
 		}
+		
+		virtual ~DeviceStateChangedListener()
+		{
+		}
+		
 		/**
 		* Callback function for the onDeviceStateChanged event.  This function will be 
 		* called whenever this event occurs.  When this happens, a pointer to a DeviceInfo
@@ -2046,7 +2100,7 @@ public:
 	*/
 	static Status addDeviceConnectedListener(DeviceConnectedListener* pListener)
 	{
-		if (pListener->m_deviceConnectedCallbacksHandle == NULL)
+		if (pListener->m_deviceConnectedCallbacksHandle != NULL)
 		{
 			return STATUS_ERROR;
 		}
@@ -2061,7 +2115,7 @@ public:
 	*/
 	static Status addDeviceDisconnectedListener(DeviceDisconnectedListener* pListener)
 	{
-		if (pListener->m_deviceDisconnectedCallbacksHandle == NULL)
+		if (pListener->m_deviceDisconnectedCallbacksHandle != NULL)
 		{
 			return STATUS_ERROR;
 		}
@@ -2076,7 +2130,7 @@ public:
 	*/
 	static Status addDeviceStateChangedListener(DeviceStateChangedListener* pListener)
 	{
-		if (pListener->m_deviceStateChangedCallbacksHandle == NULL)
+		if (pListener->m_deviceStateChangedCallbacksHandle != NULL)
 		{
 			return STATUS_ERROR;
 		}

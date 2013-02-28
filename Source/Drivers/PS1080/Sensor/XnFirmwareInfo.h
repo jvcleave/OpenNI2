@@ -44,7 +44,7 @@ public:
 	XnBool bAudioSupported;
 	XnBool bGetPresetsSupported;
 	XnBool bDeviceInfoSupported;
-	XnBool bAutoImageAdjustmentsSupported;
+	XnBool bImageAdjustmentsSupported;
 
 	XnUInt16 nOpcodeGetVersion;
 	XnUInt16 nOpcodeKeepAlive;
@@ -88,6 +88,7 @@ public:
 	XnBool bGetImageCmosTypeSupported;
 	XnBool bImageSupported;
 	XnBool bIncreasedFpsCropSupported;
+	XnBool bHasFilesystemLock;
 
 	xnl::Array<XnCmosPreset> depthModes;
 	xnl::Array<XnCmosPreset> _imageBulkModes;

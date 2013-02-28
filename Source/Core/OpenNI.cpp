@@ -186,6 +186,11 @@ ONI_C_API void oniDeviceDisableDepthColorSync(OniDeviceHandle device)
 	g_Context.clearErrorLogger();
 	device->pDevice->disableDepthColorSync();
 }
+ONI_C_API OniBool oniDeviceGetDepthColorSyncEnabled(OniDeviceHandle device)
+{
+	g_Context.clearErrorLogger();
+	return device->pDevice->isDepthColorSyncEnabled();
+}
 
 ONI_C_API OniStatus oniDeviceSetProperty(OniDeviceHandle device, int propertyId, const void* data, int dataSize)
 {
@@ -275,6 +280,14 @@ void ONI_CALLBACK_TYPE OniNewFrameTranslationHandler(void* pCookie)
 ONI_C_API OniStatus oniStreamRegisterNewFrameCallback(OniStreamHandle stream, OniNewFrameCallback handler, void* pCookie, OniCallbackHandle* pHandle)
 {
 	g_Context.clearErrorLogger();
+
+	if (*pHandle != NULL)
+	{
+		// Already registered to something
+		g_Context.addToLogger("Can't register same listener instance to multiple events");
+		return ONI_STATUS_ERROR;
+	}
+
 	OniNewFrameCookie* pNewFrameCookie = XN_NEW(OniNewFrameCookie);
 	XN_VALIDATE_PTR(pNewFrameCookie, ONI_STATUS_ERROR);
 

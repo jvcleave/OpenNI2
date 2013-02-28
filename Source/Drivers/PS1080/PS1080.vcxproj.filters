@@ -405,9 +405,6 @@
     <ClCompile Include="Sensor\LinAlg.cpp">
       <Filter>Sensor\Algorithms</Filter>
     </ClCompile>
-    <ClCompile Include="Sensor\Registration.cpp">
-      <Filter>Sensor\Algorithms</Filter>
-    </ClCompile>
     <ClCompile Include="Sensor\Uncomp.cpp">
       <Filter>Sensor\Algorithms</Filter>
     </ClCompile>
@@ -461,6 +458,12 @@
     </ClCompile>
     <ClCompile Include="Sensor\XnDeviceEnumeration.cpp">
       <Filter>Sensor</Filter>
+    </ClCompile>
+    <ClCompile Include="Sensor\XnGeneralDebugProcessor.cpp">
+      <Filter>Sensor\Data Processors</Filter>
+    </ClCompile>
+    <ClCompile Include="Sensor\XnNesaDebugProcessor.cpp">
+      <Filter>Sensor\Data Processors</Filter>
     </ClCompile>
   </ItemGroup>
   <ItemGroup>
@@ -743,9 +746,6 @@
     <ClInclude Include="Sensor\LinAlg.h">
       <Filter>Sensor\Algorithms</Filter>
     </ClInclude>
-    <ClInclude Include="Sensor\Registration.h">
-      <Filter>Sensor\Algorithms</Filter>
-    </ClInclude>
     <ClInclude Include="Sensor\Uncomp.h">
       <Filter>Sensor\Algorithms</Filter>
     </ClInclude>
@@ -808,6 +808,12 @@
     </ClInclude>
     <ClInclude Include="Sensor\XnDeviceEnumeration.h">
       <Filter>Sensor</Filter>
+    </ClInclude>
+    <ClInclude Include="Sensor\XnGeneralDebugProcessor.h">
+      <Filter>Sensor\Data Processors</Filter>
+    </ClInclude>
+    <ClInclude Include="Sensor\XnNesaDebugProcessor.h">
+      <Filter>Sensor\Data Processors</Filter>
     </ClInclude>
   </ItemGroup>
   <ItemGroup>
