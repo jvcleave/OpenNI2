@@ -10,6 +10,7 @@ SRC_FILES = *.cpp
 USED_LIBS += OpenNI2
 
 LIB_NAME = MWClosestPoint
+SLIB_NAME = MWClosestPoint
 
 CFLAGS += -Wall -D_CLOSEST_POINT
 

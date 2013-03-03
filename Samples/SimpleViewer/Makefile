@@ -10,7 +10,7 @@ SRC_FILES = *.cpp
 
 ifeq ("$(OSTYPE)","Darwin")
 	CFLAGS += -DMACOS
-	LDFLAGS += -framework OpenGL -framework GLUT
+	LDFLAGS += -framework OpenGL -framework GLUT ../../Bin/x64-Release/libOpenNI2.a
 else
 	CFLAGS += -DUNIX -DGLX_GLXEXT_LEGACY
 	USED_LIBS += glut GL

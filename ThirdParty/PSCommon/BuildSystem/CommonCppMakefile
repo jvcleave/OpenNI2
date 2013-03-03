@@ -94,8 +94,13 @@ endif
 ifneq "$(EXE_NAME)" ""
 	OUTPUT_NAME = $(EXE_NAME)
 	# We want the executables to look for the .so's locally first:
-	LDFLAGS += -Wl,-rpath ./
+	LDFLAGS += -Wl,-rpath ./ 
 	OUTPUT_COMMAND = $(CXX) -o $(OUTPUT_FILE) $(OBJ_FILES) $(LDFLAGS)
+	ifeq ("$(OSTYPE)","Darwin")
+		OUTPUT_COMMAND += $(BIN_DIR)/x64-Release/libOpenNI2.a
+		OUTPUT_COMMAND += /Volumes/WORK_IN_PROGRESS/OPENNI/2.0/OpenNI2/ThirdParty/PSCommon/XnLib/Bin/x64-Release/libXnLib.a
+	endif
+	
 endif
 ifneq "$(SLIB_NAME)" ""
 	OUTPUT_NAME = lib$(SLIB_NAME).a
