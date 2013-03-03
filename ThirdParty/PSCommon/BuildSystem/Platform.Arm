@@ -10,6 +10,6 @@ ifeq "$(CFG)" "Release"
     # More optimization flags
     CFLAGS += -ftree-vectorize -ffast-math -funsafe-math-optimizations #-fsingle-precision-constant
 
-    DEFINES += XN_NEON
+    #DEFINES += XN_NEON
     CFLAGS += -flax-vector-conversions
 endif
