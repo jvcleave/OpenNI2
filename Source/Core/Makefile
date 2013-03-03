@@ -21,6 +21,7 @@ ifeq ("$(OSTYPE)","Darwin")
 endif
 
 LIB_NAME = OpenNI2
+SLIB_NAME = OpenNI2
 
 LIB_DIRS = ../../ThirdParty/PSCommon/XnLib/Bin/$(PLATFORM)-$(CFG)
 USED_LIBS = XnLib dl pthread

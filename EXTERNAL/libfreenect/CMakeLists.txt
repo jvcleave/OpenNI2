@@ -121,6 +121,10 @@ if(WIN32)
   include_directories("${CMAKE_CURRENT_SOURCE_DIR}/platform/windows/libusb10emu/libusb-1.0")
 endif()
 
+if(APPLE)
+	CMAKE_OSX_ARCHITECTURES=i386;x86_64
+endIf()
+
 # Add library project
 add_subdirectory (src)
 
