@@ -59,6 +59,8 @@ OPTION(BUILD_AS3_SERVER "Build the Actionscript 3 Server Example" OFF)
 OPTION(BUILD_PYTHON "Build Python extension" OFF)
 IF(PROJECT_OS_LINUX)
 	OPTION(BUILD_CPACK "Build an RPM or DEB using CPack" OFF)
+	OPTION(BUILD_EXAMPLES "Build example programs" OFF)
+	OPTION(BUILD_CPP "Build C++ Library (currently header only)" OFF)
 ENDIF(PROJECT_OS_LINUX)
 
 ######################################################################################
@@ -122,7 +124,7 @@ if(WIN32)
 endif()
 
 if(APPLE)
-	CMAKE_OSX_ARCHITECTURES=i386;x86_64
+	set(CMAKE_OSX_ARCHITECTURES "x86_64;i386")
 endIf()
 
 # Add library project
