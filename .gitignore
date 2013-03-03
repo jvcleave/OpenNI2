@@ -1,4 +1,5 @@
 Bin
+*.d
 *.suo
 *.user
 *.opensdf
